@@ -1,3 +1,11 @@
+/*
+    Jen Mann
+    Advanced JavaScript, Spring 2021
+*/
+
+// TODO: stylesheet 
+// TODO add event listener for enter key as well 
+
 window.onload = () => {
 
     const zipcodeInput =  document.querySelector("#zipcode"); 
@@ -13,7 +21,7 @@ window.onload = () => {
         let zipcodeURL = createURL(zipcode); 
 
         // open XHR for request 1: get lat/lon 
-        getLatLon(zipcodeURL); 
+        getLatLon(zipcodeURL); // TODO rename this 
         
     });
 
@@ -22,10 +30,7 @@ window.onload = () => {
      * the zipcode entered by user 
      */
     const createURL = (zipcode) => {
-
         return `http://api.geonames.org/postalCodeSearchJSON?postalcode=${zipcode}&maxRows=1&username=jenmann`; 
-        
-
     }
 
     /**
@@ -102,6 +107,9 @@ window.onload = () => {
         let windText = document.querySelector("#windText"); 
 
         // TODO don't display any HTML if content not displaying, including p's 
+
+        // Display place
+        h2.innerHTML = locationData[2];
 
         // Format temperature displays 
         temperatureText.innerHTML = `${weatherData.temperature} &deg; F`; 
