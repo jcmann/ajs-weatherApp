@@ -4,44 +4,30 @@
 */
 
 // TODO: stylesheet 
-// TODO add event listener for enter key as well 
-// TODO comment
 
+/**
+ * Init method. 
+ */
 window.onload = () => {
 
+    // These are used in various methods throughout the app. 
     const zipcodeInput =  document.querySelector("#zipcode"); 
     const getWeatherButton = document.querySelector("#getWeather"); 
-
-    const weatherRequestHandler = (event) => {
-
-        //const zipcodeInput =  document.querySelector("#zipcode"); 
-        
-        // Get the zipcode inputted from user
-        let zipcode = zipcodeInput.value; 
-
-        // Form the request URL 
-        let zipcodeURL = createURL(zipcode); 
-
-        // open XHR for request 1: get lat/lon 
-        getLatLon(zipcodeURL); // TODO rename this 
-        
-    }
-
-    /**
-     * Returns a string containing a URL requesting data for 
-     * the zipcode entered by user 
-     */
-    const createURL = (zipcode) => {
-        return `http://api.geonames.org/postalCodeSearchJSON?postalcode=${zipcode}&country=US&maxRows=1&username=jenmann`; 
-    }
 
     /**
      * This method is the main utility method. It starts by getting the
      * latitude, longitude, and location name from the API. It then calls a
      * callback method, getWeatherData to actually get the weather data needed.
+     * The UI is then generated in a method called from there. 
      */
-    const getLatLon = (zipcodeURL) => {
+    const processRequest = () => {
 
+        // Get the zipcode input from user
+        let zipcode = zipcodeInput.value; 
+
+        // Form the request URL 
+        let zipcodeURL = createURL(zipcode); 
+        
         let xhr = new XMLHttpRequest(); 
         
         xhr.open("get", zipcodeURL); // We are only using get for this app
@@ -61,6 +47,13 @@ window.onload = () => {
 
     }
 
+    /**
+     * Handles the second API request in the process. This request uses 
+     * the latitude and longitude (locationData) from the initial request 
+     * and then makes a call for weather data. The weather data we need
+     * for the assignment is extracted into an object and passed onto the
+     * generateUI method along with location data. 
+     */
     const getWeatherData = (xhr, locationData) => {
 
         let [lat, lon, placeName] = locationData; 
@@ -102,7 +95,7 @@ window.onload = () => {
         // Clear out zipcode after displaying information
         zipcodeInput.value = ""; // clear this here for timing purposes
 
-        // TODO add toggle for h3s 
+        // TODO add toggle for section 
 
         // Get relevant HTML element hooks 
         let h2 = document.querySelector("h2#placeNameHeader"); 
@@ -137,14 +130,31 @@ window.onload = () => {
 
     }
 
+    /**
+     * A helper method that only exists to convert values that come in as
+     * celsius via the API to fahrenheit.
+     */
     const convertToF = (celsius) => {
         return (celsius * 1.8) + 32; 
     }
 
+    /**
+     * Returns a string containing a URL requesting data for 
+     * the zipcode entered by user 
+     */
+     const createURL = (zipcode) => {
+        return `http://api.geonames.org/postalCodeSearchJSON?postalcode=${zipcode}&country=US&maxRows=1&username=jenmann`; 
+    }
+
+    /**
+     * A helper method that effectively converts the wind direction in degrees, 
+     * which is likely what the API will return, to a directional label
+     * Ex: 0 degrees = N = North
+     */
     const determineDirection = (degree) => {
 
         /*
-            There are a total of 16 directional combinations. 
+            There are a total of 16 directional combinations.
             360 / 16 = 22.5, so each "range" is a total of 22.5 degrees. 
         */ 
 
@@ -186,11 +196,11 @@ window.onload = () => {
             
     }
 
-    // Event listeners
-    getWeatherButton.addEventListener("click", weatherRequestHandler);
+    // Event listener setup
+    getWeatherButton.addEventListener("click", processRequest);
     zipcodeInput.addEventListener("keypress", (event) => {
         if (event.key === 'Enter') {
-            weatherRequestHandler(event); 
+            processRequest(event); 
         }
     })
 
