@@ -44,7 +44,7 @@ window.onload = () => {
                 // We are using the JSON request, so all responses should be JSON
                 // Extract the latitude, longitude, and place name 
                 let res = JSON.parse(xhr.responseText).postalCodes[0];
-                let result = [res.lat, res.lng, res.placeName]; 
+                let result = [res.lat, res.lng, res.placeName]; // TODO make object
                 
                 getWeatherData(xhr, result); 
             }
@@ -67,19 +67,40 @@ window.onload = () => {
             if (xhr.readyState == 4) {
                 let results = JSON.parse(xhr.responseText).weatherObservation; 
                 //console.log(results);
-                let temp = Math.round(convertToF(results.temperature)); 
+                let temperature = Math.round(convertToF(results.temperature)); 
                 let wind = {
                     "speed" : parseInt(results.windSpeed), 
                     "direction" : results.windDirection
                 }
                 //console.log(wind);
-                let weatherData = [temp, wind];
+                let weatherData = {
+                    "temperature" : temperature, 
+                    "wind" : wind
+                };
 
-                return weatherData; 
+                generateUI(weatherData, locationData);
             }
         }
 
         xhr.send(null); 
+
+    }
+    
+    /**
+     * Generates the actual UI components to represent the weather status, and
+     * handles appending these 
+     */
+    const generateUI = (weatherData, locationData) => {
+
+        // Get relevant HTML element hooks 
+        let h2 = document.querySelector("h2#placeNameHeader"); 
+        let temperatureImage = document.querySelector("img#temperatureImage");
+        let temperatureText = document.querySelector("#temperatureText"); 
+        let windImage = document.querySelector("img#windImage");
+        let windText = document.querySelector("#windText"); 
+
+        // Format temperature displays 
+        temperatureText.innerHTML = `${weatherData.temperature} &deg; F`; 
 
     }
 
