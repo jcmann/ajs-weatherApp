@@ -63,7 +63,6 @@ window.onload = () => {
         
         let url = `http://api.geonames.org/findNearByWeatherJSON?lat=${locationData.latitude}`
                 + `&lng=${locationData.longitude}&username=jenmann`;
-                console.log(url);
         
         xhr.open("get", url); 
 
@@ -72,6 +71,7 @@ window.onload = () => {
 
                 let results = JSON.parse(xhr.responseText).weatherObservation; 
 
+                // Rounds to the nearest integer
                 let temperature = Math.round(convertToF(results.temperature));
 
                 let wind = {
