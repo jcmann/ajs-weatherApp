@@ -1,3 +1,81 @@
+:root {
+    --main-dark-green: #264653; 
+    --main-light-green: #2A9D8F; 
+    --main-orange: #E76F51;
+    --main-light-orange: #F4A261; 
+    --main-yellow: #E9C46A;  
+}
+/************************************
+            Header
+************************************/
+* {
+    text-align: center;
+}
+
+header {
+    padding: 1em;
+
+    background-color: var(--main-dark-green);
+
+    border-radius: 1em 1em 0 0;
+}
+
+button#getWeather {
+    padding: 0.7em; 
+
+    background-color: var(--main-orange); 
+    color: white; 
+
+    font-weight: bold; 
+
+    border: 2px solid transparent; 
+    border-radius: 0.5em;
+}
+
+button#getWeather:focus, 
+button#getWeather:hover {
+    border: 2px dashed var(--main-light-orange);
+}
+
+input#zipcode {
+    font-size: 1.2em; 
+    width: 7em;
+}
+
+/************************************
+            Main/Data Section
+************************************/
+main {
+    border-radius: 0 0 1em 1em; 
+
+    background-color: var(--main-light-green); 
+
+    width: 50%; 
+}
+
+/************************************
+            Utility Styles
+************************************/
+.flex {
+    display: flex; 
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center; 
+}
+
+.min-width-300px {
+    width: 300px; 
+}
+
+.mw-50 {
+    max-width: 50%;
+}
+
+.w-50 {
+    width: 50%; 
+}
+
 .displayOff {
     display: none; 
 }
