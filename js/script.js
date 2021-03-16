@@ -96,17 +96,25 @@ window.onload = () => {
 
         // Get relevant HTML element hooks 
         let h2 = document.querySelector("h2#placeNameHeader"); 
-        let temperatureImage = document.querySelector("img#temperatureImage");
+        let temperatureImage = document.querySelector("#temperatureImage");
         let temperatureText = document.querySelector("#temperatureText"); 
-        let windImage = document.querySelector("img#windImage");
+        let windImage = document.querySelector("#windImage");
         let windText = document.querySelector("#windText"); 
+
+        // TODO don't display any HTML if content not displaying, including p's 
 
         // Format temperature displays 
         temperatureText.innerHTML = `${weatherData.temperature} &deg; F`; 
+        if (weatherData.temperature >= 83) {
+            temperatureImage.innerHTML = `<i class="fas fa-sun"></i>`; 
+        } else if (weatherData.temperature <= 34) {
+            temperatureImage.innerHTML = `<i class="far fa-snowflake"></i>`; 
+        }
 
         // Format wind displays
         let windDirectionLabel = determineDirection(weatherData.wind.direction);
         windText.innerHTML = `${weatherData.wind.speed} mph to the ${windDirectionLabel}.`;
+        windImage.innerHTML = (weatherData.wind.speed > 15) ? `<i class="fas fa-wind"></i>` : null;
 
     }
 
@@ -117,11 +125,8 @@ window.onload = () => {
     const determineDirection = (degree) => {
 
         /*
-            360 divided by 8 (N, E, S, W, NE, SE, SW, NW ) = 45
-            Thus, each 45 deg increment is a new direction range. 
-
-            0 = N
-
+            There are a total of 16 directional combinations. 
+            360 / 16 = 22.5, so each "range" is a total of 22.5 degrees. 
         */ 
 
         if ((degree >= 0 && degree <= 11.25) || (degree > 348.75 && degree <= 360)) {
