@@ -10,12 +10,12 @@ window.onload = () => {
         let zipcode = zipcodeInput.value; 
 
         // Form the request URL 
-        let url = createURL(zipcode); 
+        let zipcodeURL = createURL(zipcode); 
 
-        // Create XHR to process request 
-        let xhr = new XMLHttpRequest(); 
+        // (method, url, callback)
+        ajaxRequest("get", zipcodeURL, getLatLon); 
         
-    })
+    });
 
     /**
      * Returns a string containing a URL requesting data for 
@@ -23,8 +23,33 @@ window.onload = () => {
      */
     const createURL = (zipcode) => {
 
-        return `http://api.geonames.org/postalCodeLookupJSON?postalcode=${zipcode}&country=US&username=jenmann`; 
+        return `http://api.geonames.org/postalCodeSearchJSON?postalcode=${zipcode}&maxRows=1&username=jenmann`; 
+        
 
     }
+
+    /**
+     * A general ajax request to handle both requests made for this app.
+     */
+    const ajaxRequest = (method, url, callback) => {
+
+        // Create and use XHR 
+        let xhr = new XMLHttpRequest(); 
+        //console.log(xhr);
+        xhr.open(method, url); // We are only using get for this app
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState == 4) {
+                
+            }
+        }
+
+        xhr.send(null); 
+    }
+
+    const getLatLon = (response) => {
+        console.log(response);
+    }
+
 
 }
