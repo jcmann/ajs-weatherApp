@@ -5,15 +5,17 @@
 
 // TODO: stylesheet 
 // TODO add event listener for enter key as well 
+// TODO comment
 
 window.onload = () => {
 
     const zipcodeInput =  document.querySelector("#zipcode"); 
     const getWeatherButton = document.querySelector("#getWeather"); 
 
-    // Event listener for getWeather onclick 
-    getWeatherButton.addEventListener("click", event => {
+    const weatherRequestHandler = (event) => {
 
+        //const zipcodeInput =  document.querySelector("#zipcode"); 
+        
         // Get the zipcode inputted from user
         let zipcode = zipcodeInput.value; 
 
@@ -23,14 +25,14 @@ window.onload = () => {
         // open XHR for request 1: get lat/lon 
         getLatLon(zipcodeURL); // TODO rename this 
         
-    });
+    }
 
     /**
      * Returns a string containing a URL requesting data for 
      * the zipcode entered by user 
      */
     const createURL = (zipcode) => {
-        return `http://api.geonames.org/postalCodeSearchJSON?postalcode=${zipcode}&maxRows=1&username=jenmann`; 
+        return `http://api.geonames.org/postalCodeSearchJSON?postalcode=${zipcode}&country=US&maxRows=1&username=jenmann`; 
     }
 
     /**
@@ -97,6 +99,9 @@ window.onload = () => {
      */
     const generateUI = (weatherData, locationData) => {
 
+        // Clear out zipcode after displaying information
+        zipcodeInput.value = ""; // clear this here for timing purposes
+
         // TODO add toggle for h3s 
 
         // Get relevant HTML element hooks 
@@ -123,7 +128,11 @@ window.onload = () => {
 
         // Format wind displays
         let windDirectionLabel = determineDirection(weatherData.wind.direction);
-        windText.innerHTML = `${weatherData.wind.speed} mph to the ${windDirectionLabel}.`;
+        let windTextString = `${weatherData.wind.speed} mph `; 
+        if (windDirectionLabel) {
+            windTextString += `to the ${windDirectionLabel}.`; 
+        }
+        windText.innerHTML = windTextString; 
         windImage.innerHTML = (weatherData.wind.speed > 15) ? `<i class="fas fa-wind"></i>` : null;
 
     }
@@ -171,9 +180,19 @@ window.onload = () => {
             return "NW"; 
         } else if (degree > 326.25 && degree <= 348.75) {
             return "NNW"; 
+        } else {
+            return ""; 
         }
             
     }
+
+    // Event listeners
+    getWeatherButton.addEventListener("click", weatherRequestHandler);
+    zipcodeInput.addEventListener("keypress", (event) => {
+        if (event.key === 'Enter') {
+            weatherRequestHandler(event); 
+        }
+    })
 
 
 }
