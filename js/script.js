@@ -109,6 +109,8 @@ window.onload = () => {
             temperatureImage.innerHTML = `<i class="fas fa-sun"></i>`; 
         } else if (weatherData.temperature <= 34) {
             temperatureImage.innerHTML = `<i class="far fa-snowflake"></i>`; 
+        } else {
+            temperatureImage.innerHTML = ``; 
         }
 
         // Format wind displays
