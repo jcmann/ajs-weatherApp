@@ -37,9 +37,14 @@ window.onload = () => {
                 // We are using the JSON request, so all responses should be JSON
                 // Extract the latitude, longitude, and place name 
                 let res = JSON.parse(xhr.responseText).postalCodes[0];
-                let result = [res.lat, res.lng, res.placeName]; // TODO make object
+
+                let locationData = {
+                    "latitude" : res.lat, 
+                    "longitude" : res.lng, 
+                    "placeName" : res.placeName
+                }
                 
-                getWeatherData(xhr, result); 
+                getWeatherData(xhr, locationData); 
             }
         }
 
@@ -55,24 +60,25 @@ window.onload = () => {
      * generateUI method along with location data. 
      */
     const getWeatherData = (xhr, locationData) => {
-
-        let [lat, lon, placeName] = locationData; 
         
-        let url = `http://api.geonames.org/findNearByWeatherJSON?lat=${lat}`
-                + `&lng=${lon}&username=jenmann`;
+        let url = `http://api.geonames.org/findNearByWeatherJSON?lat=${locationData.latitude}`
+                + `&lng=${locationData.longitude}&username=jenmann`;
+                console.log(url);
         
         xhr.open("get", url); 
 
         xhr.onreadystatechange = () => {
             if (xhr.readyState == 4) {
+
                 let results = JSON.parse(xhr.responseText).weatherObservation; 
-                //console.log(results);
-                let temperature = Math.round(convertToF(results.temperature)); 
+
+                let temperature = Math.round(convertToF(results.temperature));
+
                 let wind = {
                     "speed" : parseInt(results.windSpeed), 
                     "direction" : results.windDirection
                 }
-                //console.log(wind);
+
                 let weatherData = {
                     "temperature" : temperature, 
                     "wind" : wind
@@ -109,7 +115,7 @@ window.onload = () => {
         main.classList.remove("displayOff"); 
 
         // Display placeName
-        h2.innerHTML = locationData[2];
+        h2.innerHTML = locationData.placeName;
 
         // Format temperature displays 
         temperatureText.innerHTML = `${weatherData.temperature} &deg; F`; 
