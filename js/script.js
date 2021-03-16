@@ -87,26 +87,28 @@ window.onload = () => {
     }
     
     /**
-     * Generates the actual UI components to represent the weather status, and
-     * handles appending these 
+     * Generates the actual UI components to represent the weather status. 
+     * This method also inserts them into the document by toggling 
+     * their display using classes.
      */
     const generateUI = (weatherData, locationData) => {
 
         // Clear out zipcode after displaying information
         zipcodeInput.value = ""; // clear this here for timing purposes
 
-        // TODO add toggle for section 
-
         // Get relevant HTML element hooks 
+        let main = document.querySelector("main"); 
         let h2 = document.querySelector("h2#placeNameHeader"); 
         let temperatureImage = document.querySelector("#temperatureImage");
         let temperatureText = document.querySelector("#temperatureText"); 
         let windImage = document.querySelector("#windImage");
         let windText = document.querySelector("#windText"); 
 
-        // TODO don't display any HTML if content not displaying, including p's 
+        // Data section can be displayed once data is added.
+        // Remove will only remove if it exists (works with multiple submits)
+        main.classList.remove("displayOff"); 
 
-        // Display place
+        // Display placeName
         h2.innerHTML = locationData[2];
 
         // Format temperature displays 
