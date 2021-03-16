@@ -92,6 +92,8 @@ window.onload = () => {
      */
     const generateUI = (weatherData, locationData) => {
 
+        // TODO add toggle for h3s 
+
         // Get relevant HTML element hooks 
         let h2 = document.querySelector("h2#placeNameHeader"); 
         let temperatureImage = document.querySelector("img#temperatureImage");
@@ -102,10 +104,60 @@ window.onload = () => {
         // Format temperature displays 
         temperatureText.innerHTML = `${weatherData.temperature} &deg; F`; 
 
+        // Format wind displays
+        let windDirectionLabel = determineDirection(weatherData.wind.direction);
+        windText.innerHTML = `${weatherData.wind.speed} mph to the ${windDirectionLabel}.`;
+
     }
 
     const convertToF = (celsius) => {
         return (celsius * 1.8) + 32; 
+    }
+
+    const determineDirection = (degree) => {
+
+        /*
+            360 divided by 8 (N, E, S, W, NE, SE, SW, NW ) = 45
+            Thus, each 45 deg increment is a new direction range. 
+
+            0 = N
+
+        */ 
+
+        if ((degree >= 0 && degree <= 11.25) || (degree > 348.75 && degree <= 360)) {
+            return "N"; 
+        } else if (degree > 11.25 && degree <= 33.75) {
+            return "NNE"; 
+        } else if (degree > 33.75 && degree <= 56.25) {
+            return "NE";
+        } else if (degree > 56.25 && degree <= 78.75) {
+            return "ENE"; 
+        } else if (degree > 78.75 && degree <= 101.25) {
+            return "E"; 
+        } else if (degree > 101.25 && degree <= 123.75) {
+            return "ESE"; 
+        } else if (degree > 123.75 && degree <= 146.25) {
+            return "SE"; 
+        } else if (degree > 146.25 && degree <= 168.75) {
+            return "SSE"; 
+        } else if (degree > 168.75 && degree <= 191.25) {
+            return "S"; 
+        } else if (degree > 191.25 && degree <= 213.75) {
+            return "SSW"; 
+        } else if (degree > 213.75 && degree <= 236.25) {
+            return "SW"; 
+        } else if (degree > 236.25 && degree <= 258.75) {
+            return "WSW"; 
+        } else if (degree > 258.75 && degree <= 281.25) {
+            return "W"; 
+        } else if (degree > 281.25 && degree <= 303.75) {
+            return "WNW"; 
+        } else if (degree > 303.75 && degree <= 326.25) {
+            return "NW"; 
+        } else if (degree > 326.25 && degree <= 348.75) {
+            return "NNW"; 
+        }
+            
     }
 
 
