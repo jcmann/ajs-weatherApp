@@ -7,7 +7,7 @@ window.onload = () => {
     getWeatherButton.addEventListener("click", event => {
 
         // Get the zipcode inputted from user
-        let zipcode = 53703;//zipcodeInput.value; 
+        let zipcode = zipcodeInput.value; 
 
         // Form the request URL 
         let zipcodeURL = createURL(zipcode); 
