@@ -136,6 +136,18 @@ window.onload = () => {
         windText.innerHTML = windTextString; 
         windImage.innerHTML = (weatherData.wind.speed > 15) ? `<i class="fas fa-wind"></i>` : null;
 
+        // If neither field has an icon, collapse 
+        if (document.querySelector("#temperatureImage")
+                .contains(document.querySelector("#temperatureImage i"))) {
+
+            windImage.classList.remove("collapse"); 
+            temperatureImage.classList.remove("collapse"); 
+            
+        } else {
+            windImage.classList.add("collapse"); 
+            temperatureImage.classList.add("collapse"); 
+        }
+
     }
 
     /**

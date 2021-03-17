@@ -15,7 +15,7 @@
 </head>
 <body>
 
-    <div class="flex viewportCentered">
+    <div class="flex-col viewportCentered">
 
         <header id="search" class="w-300px">
             <input type="number" name="zipcode" id="zipcode" placeholder="Enter zipcode">
@@ -25,20 +25,23 @@
         <main class="displayOff w-300px">
     
             <h2 id="placeNameHeader"></h2>
-    
+
             <section id="data">
                 <section id="temperatureSection">
                     <h3>Temperature</h3>
-                    <p id="temperatureImage"></p>
+                    <p id="temperatureImage" class="iconContainer"></p>
                     <p id="temperatureText"></p>
                 </section>
             
                 <section id="windSection">
                     <h3>Wind</h3>
-                    <p id="windImage"></p>
+                    <p id="windImage" class="iconContainer"></p>
                     <p id="windText"></p>
                 </section>
             </section>
+
+                
+            
             
         </main>
 

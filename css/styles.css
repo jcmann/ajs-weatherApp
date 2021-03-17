@@ -1,9 +1,10 @@
 :root {
     --main-dark-green: #264653; 
-    --main-light-green: #2A9D8F; 
+    --main-light-green: rgb(42, 157, 143); 
     --main-orange: #E76F51;
     --main-light-orange: #F4A261; 
     --main-yellow: #E9C46A;  
+    --main-white: #FCF8ED; 
 }
 /************************************
             Header
@@ -11,6 +12,10 @@
 * {
     text-align: center;
     box-sizing: border-box;
+}
+
+body {
+    background-color: var(--main-white);
 }
 
 header {
@@ -51,20 +56,47 @@ main {
     margin: 0; 
 
     background-color: var(--main-light-green); 
+    color: white;
 
     border-radius: 0 0 1em 1em; 
+}
+
+main h2 {
+    font-size: 2em;
+    margin: 0.5em;
+}
+
+main h3 {
+    margin: 0em;
+}
+
+.iconContainer {
+    height: 2em; 
+}
+
+i {
+    font-size: 2em; 
 }
 
 /************************************
             Utility Styles
 ************************************/
-.flex {
+.flex-col {
     display: flex; 
     flex-direction: column;
 
     justify-content: center;
     align-items: center; 
     
+}
+
+#data {
+    width: 100%; 
+    display: flex; 
+    flex-direction: row;
+
+    justify-content: space-evenly;
+    align-items: baseline;
 }
 
 .viewportCentered {
@@ -80,4 +112,8 @@ main {
 
 .w-300px {
     width: 300px; 
+}
+
+.collapse {
+    height: 0em;
 }
