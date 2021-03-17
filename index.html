@@ -6,39 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jen Mann - Project 2</title>
     
+    
     <script src="js/script.js"></script>
 
     <script src="https://kit.fontawesome.com/adf2f396cf.js" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="flex">
+<body>
 
-    <header id="search" class="max-width-50 min-width-300px">
-        <input type="number" name="zipcode" id="zipcode" placeholder="Enter zipcode">
-        <button id="getWeather">Get Weather</button>
-    </header>
+    <div class="flex viewportCentered">
 
-    <main class="displayOff">
-
-        <h2 id="placeNameHeader"></h2>
-
-        <section id="data">
-            <section id="temperatureSection">
-                <h3>Temperature</h3>
-                <p id="temperatureImage"></p>
-                <p id="temperatureText"></p>
+        <header id="search" class="w-300px">
+            <input type="number" name="zipcode" id="zipcode" placeholder="Enter zipcode">
+            <button id="getWeather">Get Weather</button>
+        </header>
+    
+        <main class="displayOff w-300px">
+    
+            <h2 id="placeNameHeader"></h2>
+    
+            <section id="data">
+                <section id="temperatureSection">
+                    <h3>Temperature</h3>
+                    <p id="temperatureImage"></p>
+                    <p id="temperatureText"></p>
+                </section>
+            
+                <section id="windSection">
+                    <h3>Wind</h3>
+                    <p id="windImage"></p>
+                    <p id="windText"></p>
+                </section>
             </section>
-        
-            <section id="windSection">
-                <h3>Wind</h3>
-                <p id="windImage"></p>
-                <p id="windText"></p>
-            </section>
-        </section>
-        
+            
+        </main>
 
-    </main>
+    </div>
     
     
 </body>
