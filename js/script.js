@@ -71,6 +71,8 @@ window.onload = () => {
 
                 let results = JSON.parse(xhr.responseText).weatherObservation; 
 
+                console.log(results);
+
                 // Rounds to the nearest integer
                 let temperature = Math.round(convertToF(results.temperature));
 
@@ -136,9 +138,12 @@ window.onload = () => {
         windText.innerHTML = windTextString; 
         windImage.innerHTML = (weatherData.wind.speed > 15) ? `<i class="fas fa-wind"></i>` : null;
 
-        // If neither field has an icon, collapse 
+        // If one field has an icon, un-collapse both so they fit
+        // Otherwise, both fields are empty, so collapse the icon spacer 
         if (document.querySelector("#temperatureImage")
-                .contains(document.querySelector("#temperatureImage i"))) {
+                .contains(document.querySelector("#temperatureImage i"))
+            || document.querySelector("#windImage")
+            .contains(document.querySelector("#windImage i"))) {
 
             windImage.classList.remove("collapse"); 
             temperatureImage.classList.remove("collapse"); 
