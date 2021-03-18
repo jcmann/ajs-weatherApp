@@ -38,13 +38,21 @@ window.onload = () => {
                 // Extract the latitude, longitude, and place name 
                 let res = JSON.parse(xhr.responseText).postalCodes[0];
 
-                let locationData = {
-                    "latitude" : res.lat, 
-                    "longitude" : res.lng, 
-                    "placeName" : res.placeName
+                if (res) {
+
+                    let locationData = {
+                        "latitude" : res.lat, 
+                        "longitude" : res.lng, 
+                        "placeName" : res.placeName
+                    }
+                    
+                    getWeatherData(xhr, locationData); 
+
+                } else if (res == undefined) {
+                    outputError(); 
                 }
+
                 
-                getWeatherData(xhr, locationData); 
             }
         }
 
@@ -70,8 +78,6 @@ window.onload = () => {
             if (xhr.readyState == 4) {
 
                 let results = JSON.parse(xhr.responseText).weatherObservation; 
-
-                console.log(results);
 
                 // Rounds to the nearest integer
                 let temperature = Math.round(convertToF(results.temperature));
@@ -104,9 +110,17 @@ window.onload = () => {
         // Clear out zipcode after displaying information
         zipcodeInput.value = ""; // clear this here for timing purposes
 
+        // If it's here, the zipcode was entered
+        // Reverse display toggling 
+        document.querySelector("#error").classList.add("displayOff");
+        document.querySelector("#data").classList.remove("displayOff"); 
+
         // Get relevant HTML element hooks 
         let main = document.querySelector("main"); 
-        let h2 = document.querySelector("h2#placeNameHeader"); 
+        let h2 = document.querySelector("h2"); 
+
+        h2.classList.remove("displayOff"); 
+    
         let temperatureImage = document.querySelector("#temperatureImage");
         let temperatureText = document.querySelector("#temperatureText"); 
         let windImage = document.querySelector("#windImage");
@@ -154,6 +168,18 @@ window.onload = () => {
         }
 
     }
+
+    /**
+     * Displays the output error if a user enters an
+     * incorrect zipcode (i.e. one that doesn't return data)
+     */
+    const outputError = () => {
+        document.querySelector("main").classList.remove("displayOff"); 
+        document.querySelector("h2").classList.add("displayOff"); 
+        document.querySelector("#data").classList.add("displayOff"); 
+        document.querySelector("#error").classList.remove("displayOff"); 
+    }
+
 
     /**
      * A helper method that only exists to convert values that come in as

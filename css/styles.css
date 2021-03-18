@@ -107,7 +107,7 @@ i {
 }
 
 .displayOff {
-    display: none;
+    display: none !important; 
 }
 
 .w-300px {
