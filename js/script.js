@@ -36,22 +36,15 @@ window.onload = () => {
             if (xhr.readyState == 4) {
                 // We are using the JSON request, so all responses should be JSON
                 // Extract the latitude, longitude, and place name 
-                let res = xhr.responseText;
-                console.log(res);
+                let res = JSON.parse(xhr.responseText);
 
-                // if (res) {
+                if (res) {
+                    console.log(res);
+                    extractWeatherData(res); 
 
-                //     let locationData = {
-                //         "latitude" : res.lat, 
-                //         "longitude" : res.lng, 
-                //         "placeName" : res.placeName
-                //     }
-                    
-                //     getWeatherData(xhr, locationData); 
-
-                // } else if (res == undefined) {
-                //     outputError(); 
-                // }
+                } else if (res == undefined) {
+                    outputError(); 
+                }
 
                 
             }
@@ -68,36 +61,20 @@ window.onload = () => {
      * for the assignment is extracted into an object and passed onto the
      * generateUI method along with location data. 
      */
-    const getWeatherData = (xhr, locationData) => {
+    const extractWeatherData = (res) => {
         
-        let url = `http://api.geonames.org/findNearByWeatherJSON?lat=${locationData.latitude}`
-                + `&lng=${locationData.longitude}&username=jenmann`;
-        
-        xhr.open("get", url); 
-
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState == 4) {
-
-                let results = JSON.parse(xhr.responseText).weatherObservation; 
-
-                // Rounds to the nearest integer
-                let temperature = Math.round(convertToF(results.temperature));
-
-                let wind = {
-                    "speed" : parseInt(results.windSpeed), 
-                    "direction" : results.windDirection
-                }
-
-                let weatherData = {
-                    "temperature" : temperature, 
-                    "wind" : wind
-                };
-
-                generateUI(weatherData, locationData);
+        let data = {
+            "name" : res.name, 
+            "temperature" : res.temp, 
+            "wind" : {
+                "speed" : res.wind.speed, 
+                "direction" : determineDirection(res.wind.deg)
             }
         }
 
-        xhr.send(null); 
+        console.log(data);
+
+        generateUI(data); 
 
     }
     
@@ -106,7 +83,7 @@ window.onload = () => {
      * This method also inserts them into the document by toggling 
      * their display using classes.
      */
-    const generateUI = (weatherData, locationData) => {
+    const generateUI = (data) => {
 
         // Clear out zipcode after displaying information
         zipcodeInput.value = ""; // clear this here for timing purposes
@@ -133,26 +110,26 @@ window.onload = () => {
         main.classList.remove("displayOff"); 
 
         // Display placeName
-        h2.innerHTML = locationData.placeName;
+        h2.innerHTML = data.name;
 
         // Format temperature displays 
-        temperatureText.innerHTML = `${weatherData.temperature} &deg; F`; 
-        if (weatherData.temperature >= 83) {
+        temperatureText.innerHTML = `${data.temperature} &deg; F`; 
+        if (data.temperature >= 83) {
             temperatureImage.innerHTML = `<i class="fas fa-sun"></i>`; 
-        } else if (weatherData.temperature <= 34) {
+        } else if (data.temperature <= 34) {
             temperatureImage.innerHTML = `<i class="far fa-snowflake"></i>`; 
         } else {
             temperatureImage.innerHTML = ``; 
         }
 
         // Format wind displays
-        let windDirectionLabel = determineDirection(weatherData.wind.direction);
-        let windTextString = `${weatherData.wind.speed} mph `; 
+        let windDirectionLabel = data.wind.direction;
+        let windTextString = `${data.wind.speed} mph `; 
         if (windDirectionLabel) {
             windTextString += `to the ${windDirectionLabel}.`; 
         }
         windText.innerHTML = windTextString; 
-        windImage.innerHTML = (weatherData.wind.speed > 15) ? `<i class="fas fa-wind"></i>` : null;
+        windImage.innerHTML = (data.wind.speed > 15) ? `<i class="fas fa-wind"></i>` : null;
 
         // If one field has an icon, un-collapse both so they fit
         // Otherwise, both fields are empty, so collapse the icon spacer 
@@ -210,6 +187,11 @@ window.onload = () => {
             There are a total of 16 directional combinations.
             360 / 16 = 22.5, so each "range" is a total of 22.5 degrees. 
         */ 
+
+        if (typeof degree !== "number") {
+            degree = parseInt(degree); 
+            
+        }
 
         if ((degree >= 0 && degree <= 11.25) || (degree > 348.75 && degree <= 360)) {
             return "N"; 
