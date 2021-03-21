@@ -3,8 +3,6 @@
     Advanced JavaScript, Spring 2021
 */
 
-// TODO: stylesheet 
-
 /**
  * Init method. 
  */
@@ -15,10 +13,9 @@ window.onload = () => {
     const getWeatherButton = document.querySelector("#getWeather"); 
 
     /**
-     * This method is the main utility method. It starts by getting the
-     * latitude, longitude, and location name from the API. It then calls a
-     * callback method, getWeatherData to actually get the weather data needed.
-     * The UI is then generated in a method called from there. 
+     * This method is the main utility method. It opens the API request, 
+     * then calls a helper method which extracts the data used. That method
+     * then calls a method to generate the UI based on that data.
      */
     const processRequest = () => {
 
@@ -34,15 +31,16 @@ window.onload = () => {
 
         xhr.onreadystatechange = () => {
             if (xhr.readyState == 4) {
-                // We are using the JSON request, so all responses should be JSON
-                // Extract the latitude, longitude, and place name 
+
                 let res = JSON.parse(xhr.responseText);
 
-                if (res) {
-                    console.log(res);
-                    extractWeatherData(res); 
+                console.log(res);
 
-                } else if (res == undefined) {
+                if (res.cod == 200) {
+
+                        extractWeatherData(res); // gets wind info, temp, place name
+
+                } else {
                     outputError(); 
                 }
 
@@ -71,8 +69,6 @@ window.onload = () => {
                 "direction" : determineDirection(res.wind.deg)
             }
         }
-
-        console.log(data);
 
         generateUI(data); 
 
