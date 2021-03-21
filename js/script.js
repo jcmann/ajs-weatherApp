@@ -65,9 +65,9 @@ window.onload = () => {
         
         let data = {
             "name" : res.name, 
-            "temperature" : res.temp, 
+            "temperature" : convertToF(parseInt(res.main.temp)), 
             "wind" : {
-                "speed" : res.wind.speed, 
+                "speed" : parseInt(res.wind.speed), 
                 "direction" : determineDirection(res.wind.deg)
             }
         }
@@ -165,7 +165,7 @@ window.onload = () => {
      * celsius via the API to fahrenheit.
      */
     const convertToF = (celsius) => {
-        return (celsius * 1.8) + 32; 
+        return Math.round((celsius * 1.8) + 32); 
     }
 
     /**
