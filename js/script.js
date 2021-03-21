@@ -30,27 +30,28 @@ window.onload = () => {
         
         let xhr = new XMLHttpRequest(); 
         
-        xhr.open("get", zipcodeURL); // We are only using get for this app
+        xhr.open("get", zipcodeURL); // gets the weather data 
 
         xhr.onreadystatechange = () => {
             if (xhr.readyState == 4) {
                 // We are using the JSON request, so all responses should be JSON
                 // Extract the latitude, longitude, and place name 
-                let res = JSON.parse(xhr.responseText).postalCodes[0];
+                let res = xhr.responseText;
+                console.log(res);
 
-                if (res) {
+                // if (res) {
 
-                    let locationData = {
-                        "latitude" : res.lat, 
-                        "longitude" : res.lng, 
-                        "placeName" : res.placeName
-                    }
+                //     let locationData = {
+                //         "latitude" : res.lat, 
+                //         "longitude" : res.lng, 
+                //         "placeName" : res.placeName
+                //     }
                     
-                    getWeatherData(xhr, locationData); 
+                //     getWeatherData(xhr, locationData); 
 
-                } else if (res == undefined) {
-                    outputError(); 
-                }
+                // } else if (res == undefined) {
+                //     outputError(); 
+                // }
 
                 
             }
@@ -119,6 +120,7 @@ window.onload = () => {
         let main = document.querySelector("main"); 
         let h2 = document.querySelector("h2"); 
 
+        // Last part of toggling reversal
         h2.classList.remove("displayOff"); 
     
         let temperatureImage = document.querySelector("#temperatureImage");
@@ -194,7 +196,7 @@ window.onload = () => {
      * the zipcode entered by user 
      */
      const createURL = (zipcode) => {
-        return `http://api.geonames.org/postalCodeSearchJSON?postalcode=${zipcode}&country=US&maxRows=1&username=jenmann`; 
+        return `https://api.openweathermap.org/data/2.5/weather?zip=${zipcode}&units=metric&appid=2fe7a246f99c5d0aaf70d4b5716bf731`; 
     }
 
     /**
