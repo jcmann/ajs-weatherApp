@@ -34,8 +34,6 @@ window.onload = () => {
 
                 let res = JSON.parse(xhr.responseText);
 
-                console.log(res);
-
                 if (res.cod == 200) {
 
                         extractWeatherData(res); // gets wind info, temp, place name
